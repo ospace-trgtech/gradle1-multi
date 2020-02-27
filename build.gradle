@@ -1,28 +1,13 @@
-// gradle1-app
-plugins {
-    id 'java'
-    id 'application'
-}
+// gradle1-multi
 
-version '1.0'
-sourceCompatibility = 1.8
-mainClassName = 'application.App'
-
-repositories {
-    mavenCentral()
-}
-
-jar {
-    manifest {
-        attributes  'Version': version, 'Main-Class': mainClassName
-    }
-    dependsOn configurations.runtime
-    from {
-        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
-    }
-}
-
-dependencies {
-    compile project(':gradle1-lib')
-    testImplementation 'junit:junit:4.12'
+/* 
+ * 서브 프로젝트에 공통적으로 적용할 plugin, repositories를 설정
+ * settings.gradle에 include된 모든 프로젝트 관리
+ * root 프로젝트까지 적용한다면 allprojects에 등록
+ */
+subprojects {
+    group 'gradle1'
+    
+    // apply는 플러그인 적용
+    apply plugin: 'eclipse'
 }
